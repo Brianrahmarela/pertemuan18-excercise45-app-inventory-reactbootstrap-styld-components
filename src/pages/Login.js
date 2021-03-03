@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useHistory } from 'react-router-dom'
 
 
-function Login() {
+function Login(props) {
   const history = useHistory();
   const [dataUser, setdataUser] = useState({
     username: "",
@@ -23,6 +23,12 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    props.setIsLogin(true);
+
+    setdataUser({
+      username: "",
+      password: "",
+    })
     // alert("tes")
     const dataLocalStorage = localStorage.getItem("dataUser");
     const data = JSON.parse(dataLocalStorage);

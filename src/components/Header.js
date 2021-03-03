@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Navbar, Nav} from 'react-bootstrap'
 
-function Header() {
+function Header({isLogin, setIsLogin}) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -12,8 +12,9 @@ function Header() {
           <Nav className="mr-auto">
             <Nav.Link as={NavLink} to='/' exact>Home</Nav.Link>
             <Nav.Link as={NavLink} to='/dashboard' exact>Dashboard</Nav.Link>
-            <Nav.Link as={NavLink} to='/register'>Register</Nav.Link>
-            <Nav.Link as={NavLink} to='/login'>Login</Nav.Link>
+            {isLogin ? <Nav.Link onClick={() => setIsLogin(false)}>Logout</Nav.Link> :<> <Nav.Link as={NavLink} to='/register'>Register</Nav.Link>
+            <Nav.Link as={NavLink} to='/login'>Login</Nav.Link></>}
+       
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

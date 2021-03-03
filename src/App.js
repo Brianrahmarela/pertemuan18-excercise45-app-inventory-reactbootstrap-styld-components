@@ -1,6 +1,7 @@
 import './App.css';
 
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
+import { useState } from "react";
 
 
 // components
@@ -13,22 +14,25 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  console.log(isLogin);
+
   return (
     <div className="App">
-      <Header />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin}/>
 
     <Switch>
       <Route exact path="/">
         <Home />
       </Route>
       <Route path="/dashboard">
-        <Dashboard />
+        {isLogin ? <Dashboard /> : <Redirect to="/login"/>}
       </Route>
       <Route path="/register">
         <Register />
       </Route>
       <Route path="/login">
-        <Login />
+        <Login setIsLogin={setIsLogin}/>
       </Route>
  
       {/* <Route path="/gallery">
