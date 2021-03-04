@@ -26,7 +26,7 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     let patternUsername = /[0-9a-zA-Z]{6,}/;
-    if (patternUsername.test(dataUser.username) === true) {
+    if (patternUsername.test(dataUser.username)) {
       localStorage.setItem("dataUser", JSON.stringify(dataUser));
       axios.post("https://603cb663f4333a0017b6833f.mockapi.io/User", {username: dataUser.username, email: dataUser.email, password: dataUser.password, name: dataUser.nama})
       alert("Registration Success")
