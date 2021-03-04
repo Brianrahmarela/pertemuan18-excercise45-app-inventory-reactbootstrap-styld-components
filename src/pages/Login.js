@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Button, Container, Row, Card} from 'react-bootstrap'
+import axios from 'axios';
 
 import { useState } from "react";
 import { useHistory } from 'react-router-dom'
@@ -11,6 +12,14 @@ function Login(props) {
     username: "",
     password: "",
   })
+  console.log(dataUser);
+
+  // useEffect(() => {
+  //   axios.get("https://603cb663f4333a0017b6833f.mockapi.io/User")
+  //   // .then(response => console.log(response.data))
+  //   .then(response => setdataUser(response.data));
+  // },[])
+  // console.log(todos);
 
   const handleChange = (e) => {
     console.log(e);
@@ -23,24 +32,66 @@ function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.setIsLogin(true);
 
-    setdataUser({
-      username: "",
-      password: "",
-    })
-    // alert("tes")
-    const dataLocalStorage = localStorage.getItem("dataUser");
-    const data = JSON.parse(dataLocalStorage);
-    console.log(data);
-    if (dataUser.username === data.username){
-      console.log('user ditemukan');
-      if(dataUser.password === data.password){
-        console.log('user berhasil login');
-        history.push("/dashboard");
-      }
-    }
+      axios.get("https://603cb663f4333a0017b6833f.mockapi.io/User")
+      // .then(response => console.log(response.data))
+      .then(response => {
+        console.log(response);
+        const dataHasil = response.data
+        const dataUserAPI = dataHasil.find((item)=>{
+          //debug
+          // console.log(item);
+          // console.log(item.username);
+          // console.log(item.password);
+          // console.log(dataUser);
+          // console.log(dataUser.username);
+          // console.log(dataUser.password);
+          // console.log(item.username === dataUser.username);
+          // console.log(item.password === dataUser.password);
+          // console.log(item.username === dataUser.username && item.password === dataUser.password);
 
+          return item.username === dataUser.username && item.password === dataUser.password
+        });
+        console.log(dataUserAPI);
+        
+        //Cek apakah dataUserAPI ada isinya(jika ada artinya sdh melewati validasi pengecekan username & password(line 53))
+        if(dataUserAPI){
+          alert('user berhasil login! DATA USER ADA DI API!');
+          props.setIsLogin(true);
+          setdataUser({
+            username: "",
+            password: "",
+          })
+          history.push("/dashboard");
+        }else{
+          alert("Maaf, user anda tidak ditemukan! email dan password salah!");
+        }
+        //Cek username pass dari API && localStorage
+        // const dataLocalStorage = localStorage.getItem("dataUser");
+        // const data = JSON.parse(dataLocalStorage);
+        // if(dataUserAPI.username === data.username){
+        //   console.log('user ditemukan');
+        //   if(dataUserAPI.password === data.password){
+        //         console.log('user berhasil login');
+        //         history.push("/dashboard");
+        //       }
+        // }
+        // else{
+        //     alert("User tidak ditemukan! email dan password salah!");
+        // }
+
+        //Cek key Local Storage username & pass
+        // const dataLocalStorage = localStorage.getItem("dataUser");
+        // const data = JSON.parse(dataLocalStorage);
+        // console.log(data);
+        // if (dataUser.username === data.username){
+        //   console.log('user ditemukan');
+        //   if(dataUser.password === data.password){
+        //     console.log('user berhasil login');
+        //     history.push("/dashboard");
+        //   }
+        // }
+      });
   };
   
 
@@ -58,7 +109,7 @@ function Login(props) {
           <Form.Control type="password" placeholder="Password" autoComplete="current-password" value={dataUser.password} onChange={handleChange}/>
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
+        <Button variant="primary" type="submit" onClick={(e) => handleSubmit(e)}>
           login
         </Button>
       </Form>

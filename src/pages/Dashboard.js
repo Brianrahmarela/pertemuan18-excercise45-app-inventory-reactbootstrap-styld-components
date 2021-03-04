@@ -19,7 +19,7 @@ function Dashboard() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-// alert("msk");
+
     axios.post("https://603cb663f4333a0017b6833f.mockapi.io/todos", {todo: input})
     .then(result => {
       setTodos([...todos, result.data])
@@ -38,18 +38,17 @@ function Dashboard() {
     axios.delete(`https://603cb663f4333a0017b6833f.mockapi.io/todos/${item.id}`)
     .then(result => {
       console.log(result)
-      //default filter()
-      //value yaitu isi dari tiap elemen yang diproses.
-      // index (optional) yaitu nomor index tiap elemen.
-      // arr.filter((value, index, array) => {
-      //   // kode program
-      // });
-      let finalData = todos.filter(value => {
-        // console.log(value); //ini valuenya 1 index
-        // console.log(value.id); //ini value dari properti id
-        console.log(item); //ini item
-        console.log(item.id); //ini value dari properti id item
-        return value.id !== item.id
+
+      let finalData = todos.filter(itemTodos => {
+        //cth value itemTodos: 0: {id: "2", todo: "aaaa"}
+        console.log(itemTodos); //ini representasi item-item yg ada di var todos state, yaitu (0: {id: "2", todo: "aaaa"})
+        console.log(itemTodos.id); //ini mrujuk properti id dari var todos state, namun yg diambil valuenya yaitu (2)
+        console.log(item); //ini item dari param handleDelete, yaitu elemen button yg diklik, yaitu (id: "6", todo: "ggg")
+        console.log(item.id); //ini mrujuk properti id dari param handleDelete, namun yg diambil valuenya yaitu (6)
+
+        //akan mengembalikan jika kondisi value properti id dari var todos state (dicek semua idnya dari id: "1" sampai dgn id: "6" tdk sama dgn properti id dari param handleDelete yg di klik, valuenya 6
+        return itemTodos.id !== item.id
+        //krn return filter array & bisa bnyk data/ lebih dari 1 maka item2 todos.id yg tdk sama dgn item.id direturn semua kecuali id state variable todos yg sama dgn item.id. jd yg direturn 5 data, id dgn value 1-5. kecuali id dgn value 6
       });
       setTodos([...finalData])
     })

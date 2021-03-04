@@ -27,7 +27,8 @@ function Register() {
     e.preventDefault();
     let patternUsername = /[0-9a-zA-Z]{6,}/;
     if (patternUsername.test(dataUser.username)) {
-      localStorage.setItem("dataUser", JSON.stringify(dataUser));
+      // localStorage.setItem("dataUser", JSON.stringify(dataUser));
+      localStorage.setItem("isLoggin", true);
       axios.post("https://603cb663f4333a0017b6833f.mockapi.io/User", {username: dataUser.username, email: dataUser.email, password: dataUser.password, name: dataUser.nama})
       alert("Registration Success")
       history.push("/login");
@@ -36,17 +37,6 @@ function Register() {
     // test regegex username min 6 character
     // console.log(patternUsername.test(dataUser.username));
   };
-
-  //POST KE API
-  // const [get, setGet] = useState([]);
-  // console.log(get);
-
-  // useEffect(() => {
-  //   axios
-  //   .get("https://603cb663f4333a0017b6833f.mockapi.io/User")
-  //   .then((response) => setGet(response));
-
-  // }, [])
 
   return (
     <Container className="my-5">

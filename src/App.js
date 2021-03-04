@@ -35,12 +35,6 @@ function App() {
         <Login setIsLogin={setIsLogin}/>
       </Route>
  
-      {/* <Route path="/gallery">
-        <Gallery />
-      </Route>
-      <Route path="/todo">
-        <Todo />
-      </Route> */}
     </Switch>
     </div>
 
